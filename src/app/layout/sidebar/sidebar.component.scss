@@ -1,0 +1,32 @@
+::ng-deep .custom-sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: white;
+  
+    .logo {
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid #444;
+    }
+  
+    .menu {
+      list-style: none;
+      padding: 1rem;
+  
+      li {
+        margin: 1rem 0;
+  
+        a {
+          color: white;
+          text-decoration: none;
+  
+          &.active,
+          &:hover {
+            color: #1abc9c;
+          }
+        }
+      }
+    }
+  }
+  

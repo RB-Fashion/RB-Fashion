@@ -1,0 +1,13 @@
+<div class="layout-wrapper">
+  <app-topbar (menuToggle)="toggleMenu()"></app-topbar>
+
+  <div class="layout-content">
+    <ng-container *ngIf="isSidebarVisible">
+      <app-sidebar class="sidebar"></app-sidebar>
+    </ng-container>
+
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

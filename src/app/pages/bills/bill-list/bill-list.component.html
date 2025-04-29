@@ -1,0 +1,126 @@
+<div class="col-12">
+    <p-toast />
+    <div class="card">
+    <p-table [value]="products" dataKey="id" [style]="{ height: 'fit-content', 'margin-top': '10px','width':'100%' }" [expandedRowKeys]="expandedRows" (onRowExpand)="onRowExpand($event)" (onRowCollapse)="onRowCollapse($event)" responsiveLayout="stack" showGridlines>
+        
+        <ng-template #caption>
+            <div class="flex justify-content-between align-items-center">
+                <h3>Invoice Details</h3>
+                <div class="flex align-items-center">
+                    <p-button label="New" icon="pi pi-plus" class="mr-2"/>
+                    <p-iconfield iconPosition="left" class="ml-auto">
+                        <input pInputText type="text"  placeholder="Search keyword" />
+                    </p-iconfield>
+                </div>
+            </div>
+        </ng-template>
+        
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5rem"></th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-product let-expanded="expanded">
+            <tr>
+                <td>
+                    <p-button type="button" pRipple [pRowToggler]="product" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
+                </td>
+                <td><span class="p-column-title">Name</span>{{ product.name }}</td>
+                <td><span class="p-column-title">Category</span>{{ product.category }}</td>
+                <td><span class="p-column-title">Price</span>{{ product.price | currency:'INR' }}</td>
+                <td><span class="p-column-title">Actions</span>
+                    <p-button icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" ></p-button>
+                    <p-button icon="pi pi-plus" class="p-button-text p-button-sm"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template #expandedrow let-product>
+            <tr>
+                <td colspan="100%">
+                    <div class="p-3 expanded-content">
+
+                        <!-- Invoice Details Table -->
+                        <div class="mb-4">
+                            <h5>Invoice Details for {{ product.name }}</h5>
+                            <p-table [value]="product.invoices" dataKey="invoiceNo" responsiveLayout="stack">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Invoice No</th>
+                                        <th>Job No</th>
+                                        <th>Date</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-invoice>
+                                    <tr>
+                                        <td><span class="p-column-title">Invoice No</span>{{ invoice.invoiceNo }}</td>
+                                        <td><span class="p-column-title">Job No</span>{{ invoice.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Date</span>{{ invoice.amount | currency:'INR' }}</td>
+                                        <td><span class="p-column-title">Description</span>{{ invoice.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Amount</span>{{ invoice.amount | currency:'INR' }}</td>
+                                        <td><span class="p-column-title">Actions</span>
+                                            <p-button icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" ></p-button>
+                                            <p-button icon="pi pi-plus" class="p-button-text p-button-sm"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="3">No invoices found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                        <!-- Payment Details Table -->
+                        <div>
+                            <h5>Payment Details for {{ product.name }}</h5>
+                            <p-table [value]="product.payments" dataKey="paymentNo" responsiveLayout="stack">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Payment No</th>
+                                        <th>Date</th>
+                                        <th>Payment Mode</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-payment>
+                                    <tr>
+                                        <td><span class="p-column-title">Payment No</span>{{ payment.paymentNo }}</td>
+                                        <td><span class="p-column-title">Date</span>{{ payment.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Payment Mode</span>{{ payment.amount | currency:'INR' }}</td>
+                                        <td><span class="p-column-title">Description</span>{{ payment.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Amount</span>{{ payment.amount | currency:'INR' }}</td>
+                                        <td><span class="p-column-title">Actions</span>
+                                            <p-button icon="pi pi-pencil"></p-button>
+                                            <p-button icon="pi pi-plus"></p-button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="3">No payments found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+    </div>
+</div>

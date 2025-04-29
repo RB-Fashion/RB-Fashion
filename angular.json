@@ -28,13 +28,14 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets"
               }
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/RB-Fashion/"
           },
           "configurations": {
             "production": {
@@ -103,3 +104,5 @@
     "analytics": "886633a1-d5a3-4b12-a30d-a5c040b7c3db"
   }
 }
+
+

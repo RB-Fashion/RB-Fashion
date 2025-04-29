@@ -1,0 +1,44 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* prevent double scrollbars */
+}
+
+.layout-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+app-topbar {
+  height: 60px; /* Adjust as needed */
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.layout-content {
+  display: flex;
+  flex: 1;
+  padding-top: 60px; /* match topbar height */
+  height: 100%;
+}
+
+.sidebar {
+  width: 250px;
+  overflow-y: auto;
+  height: calc(100vh - 60px); /* full height minus topbar */
+  position: sticky;
+  top: 60px; /* same as topbar height */
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  height: calc(100vh - 60px); /* full height minus topbar */
+  padding: 1rem;
+  width: 100%;
+}

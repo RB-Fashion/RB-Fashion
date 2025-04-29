@@ -1,0 +1,23 @@
+<p-toolbar styleClass="shadow-1 bg-white">
+  <div class="flex w-full justify-content-between align-items-center px-3">
+
+    <!-- Left: Menu toggle button -->
+    <div class="flex align-items-center gap-2">
+      <button pButton icon="pi pi-bars" styleClass="p-button-text" (click)="toggleMenu()"></button>
+    </div>
+
+    <!-- Center: Logo and Company Name -->
+    <div class="text-center">
+      <img src="../../../assets/logos/rbf_logo-removebg-preview.png" alt="Logo" width="40"
+        class="vertical-align-middle mr-2" />
+      <span class="text-xl font-semibold vertical-align-middle">RB Fashion</span>
+    </div>
+
+    <!-- Right: Profile Menu -->
+    <div class="flex align-items-center">
+      <p-tieredMenu #profileMenu [model]="profileItems" popup></p-tieredMenu>
+      <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" (click)="profileMenu.toggle($event)" />
+    </div>
+
+  </div>
+</p-toolbar>

@@ -1,0 +1,22 @@
+.topbar {
+    display: flex;
+    align-items: center;
+    background-color: #34495e;
+    color: white;
+    padding: 1rem;
+  
+    .menu-button {
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+  
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+  

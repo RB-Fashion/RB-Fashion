@@ -21,6 +21,9 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { DataViewModule } from 'primeng/dataview';
 import { TagModule } from 'primeng/tag';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectModule } from 'primeng/select';
+import { DatePickerModule } from 'primeng/datepicker';
 
 
 
@@ -50,7 +53,10 @@ import { TagModule } from 'primeng/tag';
     StyleClassModule,
     FloatLabelModule,
     DataViewModule,
-    TagModule
+    TagModule,
+    InputNumberModule,
+    SelectModule,
+    DatePickerModule,
   ],
   exports: [
     ButtonModule,
@@ -73,7 +79,10 @@ import { TagModule } from 'primeng/tag';
     StyleClassModule,
     FloatLabelModule,
     DataViewModule,
-    TagModule
+    TagModule,
+    InputNumberModule,
+    SelectModule,
+    DatePickerModule,
   ]
 })
 export class PrimengModule { }

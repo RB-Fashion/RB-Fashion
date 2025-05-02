@@ -7,7 +7,7 @@
             <div class="flex justify-content-between align-items-center">
                 <h3>Invoice Details</h3>
                 <div class="flex align-items-center">
-                    <p-button label="New" icon="pi pi-plus" class="mr-2"/>
+                    <p-button label="New" icon="pi pi-plus" class="mr-2" (click)="addParties()" />
                     <p-iconfield iconPosition="left" class="ml-auto">
                         <input pInputText type="text"  placeholder="Search keyword" />
                     </p-iconfield>
@@ -21,7 +21,7 @@
                 <th style="width: 5rem"></th>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Price</th>
+                <th>Amount</th>
                 <th>Actions</th>
             </tr>
         </ng-template>
@@ -33,7 +33,13 @@
                 </td>
                 <td><span class="p-column-title">Name</span>{{ product.name }}</td>
                 <td><span class="p-column-title">Category</span>{{ product.category }}</td>
-                <td><span class="p-column-title">Price</span>{{ product.price | currency:'INR' }}</td>
+                <td>
+                    <span class="p-column-title">Balance</span>
+                    <span 
+                        [ngStyle]="{ color: product.balance < 0 ? 'red' : 'inherit' }">
+                        {{ product.balance | currency:'INR':'symbol':'1.2-2' }}
+                    </span>
+                  </td>
                 <td><span class="p-column-title">Actions</span>
                     <p-button icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" ></p-button>
                     <p-button icon="pi pi-plus" class="p-button-text p-button-sm"></p-button>
@@ -48,8 +54,15 @@
 
                         <!-- Invoice Details Table -->
                         <div class="mb-4">
-                            <h5>Invoice Details for {{ product.name }}</h5>
                             <p-table [value]="product.invoices" dataKey="invoiceNo" responsiveLayout="stack">
+                                <ng-template #caption>
+                                    <div class="flex justify-content-between align-items-center">
+                                        <h3>Invoice Details of {{ product.name }}</h3>
+                                        <div class="flex align-items-center">
+                                            <p-button label="Add Invoice" icon="pi pi-plus" class="mr-2" (click)="addInvoice(product.id)"/>
+                                        </div>
+                                    </div>
+                                </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th>Invoice No</th>
@@ -63,13 +76,12 @@
                                 <ng-template pTemplate="body" let-invoice>
                                     <tr>
                                         <td><span class="p-column-title">Invoice No</span>{{ invoice.invoiceNo }}</td>
-                                        <td><span class="p-column-title">Job No</span>{{ invoice.date | date:'dd/MM/yyyy' }}</td>
-                                        <td><span class="p-column-title">Date</span>{{ invoice.amount | currency:'INR' }}</td>
-                                        <td><span class="p-column-title">Description</span>{{ invoice.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Job No</span>{{ invoice.jobNo }}</td>
+                                        <td><span class="p-column-title">Date</span>{{ invoice.date | date:'dd/MM/yyyy' }}</td>
+                                        <td><span class="p-column-title">Description</span>{{ invoice.description }}</td>
                                         <td><span class="p-column-title">Amount</span>{{ invoice.amount | currency:'INR' }}</td>
                                         <td><span class="p-column-title">Actions</span>
                                             <p-button icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" ></p-button>
-                                            <p-button icon="pi pi-plus" class="p-button-text p-button-sm"></p-button>
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -83,8 +95,15 @@
 
                         <!-- Payment Details Table -->
                         <div>
-                            <h5>Payment Details for {{ product.name }}</h5>
                             <p-table [value]="product.payments" dataKey="paymentNo" responsiveLayout="stack">
+                                <ng-template #caption>
+                                    <div class="flex justify-content-between align-items-center">
+                                        <h3>Payment Details of {{ product.name }}</h3>
+                                        <div class="flex align-items-center">
+                                            <p-button label="Add Payment" icon="pi pi-plus" class="mr-2" (click)="addPayment(product.id)"/>
+                                        </div>
+                                    </div>
+                                </ng-template>
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th>Payment No</th>
@@ -104,7 +123,6 @@
                                         <td><span class="p-column-title">Amount</span>{{ payment.amount | currency:'INR' }}</td>
                                         <td><span class="p-column-title">Actions</span>
                                             <p-button icon="pi pi-pencil"></p-button>
-                                            <p-button icon="pi pi-plus"></p-button>
                                         </td>
                                     </tr>
                                 </ng-template>
@@ -124,3 +142,130 @@
     </p-table>
     </div>
 </div>
+
+
+
+<!-- Add/Edit Dialog for Products -->
+
+<p-dialog header="Manage Product" [(visible)]="productDialogVisible" [modal]="true" [style]="{ width: '70%' }">
+    <div class="card">
+        <form [formGroup]="productForm" autocomplete="off">
+            <div class="grid p-fluid mt-3">
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel class="w-full">
+                        <input pInputText id="party_name" formControlName="name" autocomplete="off" class="w-full" />
+                        <label for="party_name">Party Name</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-dropdown 
+                        formControlName="category" 
+                        [options]="partiesCategory" 
+                        optionLabel="name" 
+                        optionValue="name"
+                        placeholder="Select Category" 
+                        class="w-full">
+                    </p-dropdown>
+                </div>
+            </div>
+        </form>
+        <div class="flex justify-content-center">
+            <p-button label="Cancel" severity="secondary" (click)="productDialogVisible = false" class="w-full md:w-auto"></p-button>
+            <p-button label="Save" (click)="saveParties()" class="w-full md:w-auto"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Add/Edit Dialog for Invoices -->
+
+<p-dialog header="Manage Invoice" [(visible)]="invoiceDialogVisible" [modal]="true" [style]="{ width: '70%' }">
+    <div class="card">
+        <form [formGroup]="invoiceForm" autocomplete="off">
+            <div class="grid p-fluid mt-3 justify-content-center">
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <input pInputText id="on_label" formControlName="invoiceNo" class="w-full" />
+                        <label for="on_label">Invoice Number</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on" class="w-full">
+                        <p-datepicker formControlName="date" inputId="over_label" showIcon iconDisplay="input" class="w-full"/>
+                        <label for="over_label">Invoice Date</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <input pInputText id="on_label" formControlName="jobNo" class="w-full"/>
+                        <label for="on_label">Job Number</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <p-inputnumber  mode="currency" inputId="currency-india" currency="INR" currencyDisplay="code" locale="en-IN" formControlName="amount" class="w-full"/>
+                        <label for="on_label">Amount</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <textarea pTextarea id="over_label" rows="5" cols="30" style="resize: none" class="h-full" formControlName="description" class="w-full"></textarea>
+                        <label for="on_label">Description</label>
+                    </p-floatlabel>
+                </div>
+            </div>
+        </form>
+        <div class="flex justify-content-center">
+            <p-button label="Cancel" severity="secondary" (click)="productDialogVisible = false" class="w-full md:w-auto"></p-button>
+            <p-button label="Save" (click)="saveInvoice()" class="w-full md:w-auto"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+<!-- Add/Edit Dialog for Payments -->
+
+<p-dialog header="Manage Payment" [(visible)]="paymentDialogVisible" [modal]="true" [style]="{ width: '70%' }">
+    <div class="card">
+        <form [formGroup]="paymentForm" autocomplete="off">
+            <div class="grid p-fluid mt-3 justify-content-center">
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <input pInputText id="on_label" formControlName="paymentNo" class="w-full" />
+                        <label for="on_label">Payment Number</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on" class="w-full">
+                        <p-datepicker formControlName="date" inputId="over_label" showIcon iconDisplay="input" class="w-full"/>
+                        <label for="over_label">Payment Date</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                        <p-dropdown 
+                        formControlName="paymentMode" 
+                        [options]="paymentTypes" 
+                        optionLabel="name" 
+                        optionValue="name"
+                        placeholder="Select Payment Mode" 
+                        class="w-full">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <p-inputnumber  mode="currency" inputId="currency-india" currency="INR" currencyDisplay="code" locale="en-IN" formControlName="amount" class="w-full"/>
+                        <label for="on_label">Amount</label>
+                    </p-floatlabel>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p-floatlabel variant="on">
+                        <textarea pTextarea id="over_label" rows="5" cols="30" style="resize: none" class="h-full" formControlName="description" class="w-full"></textarea>
+                        <label for="on_label">Description</label>
+                    </p-floatlabel>
+                </div>
+            </div>
+        </form>
+        <div class="flex justify-content-center">
+            <p-button label="Cancel" severity="secondary" (click)="productDialogVisible = false" class="w-full md:w-auto"></p-button>
+            <p-button label="Save" (click)="savePayment()" class="w-full md:w-auto"></p-button>
+        </div>
+    </div>
+</p-dialog>

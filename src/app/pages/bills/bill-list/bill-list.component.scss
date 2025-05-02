@@ -7,3 +7,14 @@
     vertical-align: top; /* Makes content look cleaner */
   }
   
+  ::ng-deep p-datepicker,
+  ::ng-deep p-datepicker .p-inputwrapper,
+  ::ng-deep p-datepicker .p-inputtext {
+    width: 90% !important;
+    max-width: 90%;
+    box-sizing: border-box;
+  }
+
+  .text-danger {
+    color: red;
+  }

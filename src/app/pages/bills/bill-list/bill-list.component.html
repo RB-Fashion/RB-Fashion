@@ -9,7 +9,7 @@
                 <div class="flex align-items-center">
                     <p-button label="New" icon="pi pi-plus" class="mr-2" (click)="addParties()" />
                     <p-iconfield iconPosition="left" class="ml-auto">
-                        <input pInputText type="text"  placeholder="Search keyword" />
+                        <input pInputText type="text" placeholder="Search keyword" (input)="onChangeOfPartiesInput($event)"/>
                     </p-iconfield>
                 </div>
             </div>
@@ -21,7 +21,9 @@
                 <th style="width: 5rem"></th>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Amount</th>
+                <th>Credit(-)</th>
+                <th>Debit(+)</th>
+                <th>Balance Amt</th>
                 <th>Actions</th>
             </tr>
         </ng-template>
@@ -33,6 +35,8 @@
                 </td>
                 <td><span class="p-column-title">Name</span>{{ product.name }}</td>
                 <td><span class="p-column-title">Category</span>{{ product.category }}</td>
+                <td><span class="p-column-title">Credit(-)</span>{{product.invoiceAmount}}</td>
+                <td><span class="p-column-title">Debit(+)</span>{{product.paymentAmount}}</td>
                 <td>
                     <span class="p-column-title">Balance</span>
                     <span 
@@ -42,7 +46,6 @@
                   </td>
                 <td><span class="p-column-title">Actions</span>
                     <p-button icon="pi pi-pencil" class="p-button-text p-button-sm mr-2" ></p-button>
-                    <p-button icon="pi pi-plus" class="p-button-text p-button-sm"></p-button>
                 </td>
             </tr>
         </ng-template>

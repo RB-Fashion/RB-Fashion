@@ -25,6 +25,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 export class BillListComponent {
   products: any[] = [];
+  originalProducts: any[] = [];
   expandedRows: { [key: string]: boolean } = {};
   partyManageDialogVisible: boolean = false;
   productDialogVisible: boolean = false;
@@ -81,17 +82,25 @@ export class BillListComponent {
         const balance =
           partyInvoices.reduce((sum, i) => sum + Number(i.amount), 0) -
           partyPayments.reduce((sum, p) => sum + Number(p.amount), 0);
+
+        const invoiceAmount = partyInvoices.reduce((sum, i) => sum + Number(i.amount), 0);
+        const paymentAmount = partyPayments.reduce((sum, p) => sum + Number(p.amount), 0);  
   
         return {
           ...party,
           invoices: partyInvoices,
           payments: partyPayments,
           balance,
+          invoiceAmount,
+          paymentAmount,
         };
       });
+      console.log('Products:', this.products);
+      this.originalProducts = [...this.products];
     });
   }
   
+
   
 
   onRowExpand(event: any) {
@@ -236,5 +245,16 @@ export class BillListComponent {
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  onChangeOfPartiesInput(event: any) {
+    const inputValue = event.target.value.toLowerCase();
+  if (!inputValue) {
+    this.products = [...this.originalProducts]; // Show all if input is empty
+  } else {
+    this.products = this.originalProducts.filter(product =>
+      product.name.toLowerCase().includes(inputValue)
+    );
+  }
   }
 }

@@ -18,7 +18,7 @@ export class SidebarComponent {
     },
    
     {
-      label: 'Invoices',
+      label: 'Credit List',
       icon: 'pi pi-receipt',
       routerLink: ['/bills/list']
     },
